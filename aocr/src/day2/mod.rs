@@ -1,7 +1,6 @@
-use std::collections::HashMap;
 use std::fs::File;
 use std::io::{self, BufRead};
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 fn read_file(filename: &str) -> io::Result<Vec<Vec<i32>>> {
     let data_file = Path::new(file!()).parent().unwrap().join(filename);
@@ -43,9 +42,10 @@ fn is_report_safe_2(report: &Vec<i32>) -> bool {
 }
 
 pub fn solve_parts() {
+    println!("{:} Day 2 {:}", "=".repeat(20), "=".repeat(20));
+
     let filename = "input.txt";
     let reports = read_file(filename).unwrap_or(vec![]);
-    println!("{:?}", reports);
     let mut safe_reports = reports.iter().filter(|r| is_report_safe(r)).count();
     println!("Safe reports: {:}", safe_reports);
     safe_reports = reports.iter().filter(|r| is_report_safe_2(r)).count();

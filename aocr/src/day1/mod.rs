@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{self, BufRead};
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 fn read_file(filename: &str) -> io::Result<Vec<Vec<i32>>> {
     let data_file = Path::new(file!()).parent().unwrap().join(filename);
@@ -48,11 +48,11 @@ fn part_two(locations: &Vec<Vec<i32>>) -> Result<i32, i32> {
 }
 
 pub fn solve_parts() {
+    println!("{:} Day 1 {:}", "=".repeat(20), "=".repeat(20));
     let filename = "input.txt";
     let locations = read_file(filename).unwrap_or(vec![]);
-    println!("{:?}", locations);
     let total_distance = part_one(&locations).unwrap_or_default();
-    println!("{:}", total_distance);
+    println!("Total distance {:}", total_distance);
     let score: i32 = part_two(&locations).unwrap();
     println!("Similarity score: {score}");
 }

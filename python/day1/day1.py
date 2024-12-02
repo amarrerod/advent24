@@ -3,15 +3,15 @@
 """
 @File    :   day1.py
 @Time    :   2024/12/01 12:35:30
-@Author  :   Alejandro Marrero 
+@Author  :   Alejandro Marrero
 @Version :   1.0
 @Contact :   amarrerd@ull.edu.es
 @License :   (C)Copyright 2023, Alejandro Marrero
 @Desc    :   None
 """
 
-from pathlib import Path
 from collections import Counter
+from pathlib import Path
 
 
 def parse_file():
@@ -38,8 +38,9 @@ def part_two(locations: tuple[list[int]]) -> int:
 
 
 if __name__ == "__main__":
+    print("=" * 20 + " Day 1 " + "=" * 20)
     locations = parse_file()
     dist = part_one(locations)
-    print(dist)
+    print(f"Total distance: {dist}")
     similarity = part_two(locations)
-    print(similarity)
+    print(f"Similarity score: {similarity}")

@@ -37,6 +37,7 @@ def is_report_safe2(report: list[int]) -> bool:
 
 
 if __name__ == "__main__":
+    print("=" * 20 + " Day 2 " + "=" * 20)
     reports = parse_file()
-    print(len(list(filter(is_report_safe, reports))))
-    print(len(list(filter(is_report_safe2, reports))))
+    print(f"Safe reports: {len(list(filter(is_report_safe, reports)))}")
+    print(f"Safe reports 2: {len(list(filter(is_report_safe2, reports)))}")
