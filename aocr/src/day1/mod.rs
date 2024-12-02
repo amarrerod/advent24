@@ -3,7 +3,7 @@ use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::{Path, PathBuf};
 
-pub fn read_file(filename: &str) -> io::Result<Vec<Vec<i32>>> {
+fn read_file(filename: &str) -> io::Result<Vec<Vec<i32>>> {
     let data_file = Path::new(file!()).parent().unwrap().join(filename);
 
     let file = File::open(data_file)?;
@@ -21,7 +21,7 @@ pub fn read_file(filename: &str) -> io::Result<Vec<Vec<i32>>> {
     Ok(vec![col1, col2])
 }
 
-pub fn part_one(locations: &Vec<Vec<i32>>) -> Result<i32, i32> {
+fn part_one(locations: &Vec<Vec<i32>>) -> Result<i32, i32> {
     if locations.len() != 2 {
         println!("Error in the size of the locations");
         return Err(-1);
@@ -34,7 +34,7 @@ pub fn part_one(locations: &Vec<Vec<i32>>) -> Result<i32, i32> {
     Ok(total_distance)
 }
 
-pub fn part_two(locations: &Vec<Vec<i32>>) -> Result<i32, i32> {
+fn part_two(locations: &Vec<Vec<i32>>) -> Result<i32, i32> {
     let counter: HashMap<i32, i32> = locations[1].iter().fold(HashMap::new(), |mut acc, item| {
         *acc.entry(*item).or_insert(0) += 1;
         acc
@@ -45,4 +45,14 @@ pub fn part_two(locations: &Vec<Vec<i32>>) -> Result<i32, i32> {
         .sum();
 
     Ok(score)
+}
+
+pub fn solve_parts() {
+    let filename = "input.txt";
+    let locations = read_file(filename).unwrap_or(vec![]);
+    println!("{:?}", locations);
+    let total_distance = part_one(&locations).unwrap_or_default();
+    println!("{:}", total_distance);
+    let score: i32 = part_two(&locations).unwrap();
+    println!("Similarity score: {score}");
 }
