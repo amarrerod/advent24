@@ -13,28 +13,24 @@
 import re
 from pathlib import Path
 
-REGEX = r"mul\(\d+,\d+\)|do\(+\)|don\'t\(+\)"
+REGEX = r"mul\((\d+),(\d+)\)|(do\(+\))|(don\'t\(+\))"
 
 
-def parse_file():
-    raw = Path(__file__).with_name("input.txt").read_text()
+def parse_file(filename: str = ""):
+    raw = Path(__file__).with_name(filename).read_text()
     matches = re.finditer(REGEX, raw)
-    numbers = []
     compute = True
-    for s in (match.group() for match in matches):
-        if s == "don't()":
-            compute = False
-        elif s == "do()":
-            compute = True
+    for match in matches:
+        content = list(filter(lambda x: x, match.groups()))
+        if len(content) == 1:
+            # The only options are do or don't
+            compute = False if content[0] == "don't()" else True
         elif compute:
-            n = s[4:-1].split(",")
-            numbers.append((int(n[0]), int(n[1])))
-    return numbers
+            # Here we have two numbers to multiply
+            yield int(content[0]) * int(content[1])
 
 
 if __name__ == "__main__":
     print("=" * 20 + " Day 3 " + "=" * 20)
-
-    multiplications = parse_file()
-    part_one = sum(m[0] * m[1] for m in multiplications)
+    part_one = sum(parse_file(filename="input.txt"))
     print(f"Solution of part two: {part_one}")
