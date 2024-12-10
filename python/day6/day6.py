@@ -69,7 +69,7 @@ def obstacle_guard(
     y_limit: tuple[int, int],
 ):
     positions = set()
-    positions.add((guard, (-1, 0)))
+    positions.add(guard)
 
     x_min, x_max = x_limit
     y_min, y_max = y_limit
@@ -81,19 +81,18 @@ def obstacle_guard(
     while x_min <= current_position[0] < x_max and y_min <= current_position[1] < y_max:
         next_position = tuple(map(sum, zip(current_position, increase)))
 
-        if next_position not in obstacles:
+        if next_position in positions:
+            return True
+
+        elif next_position not in obstacles:
             current_position = next_position
 
         else:
             # Turn right
             orientations.append(increase)
             increase = orientations.popleft()
-            state = (current_position, increase)
 
-            if state in positions:
-                return True
-
-            positions.add(state)
+            positions.add(current_position)
 
     return False
 
@@ -125,6 +124,8 @@ def how_many_ways(
 
 
 if __name__ == "__main__":
+    print("=" * 20 + " Day 6 " + "=" * 20)
+
     guard, obstacles, x_limit, y_limit = parse_file("input.txt")
 
     print(f"Boundaries: {x_limit}, {y_limit}")
