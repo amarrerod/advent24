@@ -50,6 +50,8 @@ def valid_equations(equation):
 
 
 if __name__ == "__main__":
+    print("=" * 20 + " Day 7 " + "=" * 20)
+
     equations = parse_file("input.txt")
     result = sum(valid_equations(eq) for eq in equations)
     print(result)

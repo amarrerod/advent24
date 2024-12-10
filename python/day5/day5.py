@@ -3,12 +3,13 @@
 """
 @File    :   day5.py
 @Time    :   2024/12/05 10:45:48
-@Author  :   Alejandro Marrero 
+@Author  :   Alejandro Marrero
 @Version :   1.0
 @Contact :   amarrerd@ull.edu.es
 @License :   (C)Copyright 2023, Alejandro Marrero
 @Desc    :   None
 """
+
 from pathlib import Path
 
 
@@ -63,6 +64,8 @@ def compute_middle_page(
 
 
 if __name__ == "__main__":
+    print("=" * 20 + " Day 5 " + "=" * 20)
+
     rules, updates = parse_file("input.txt")
 
     middle_pages = sum(compute_middle_page(rules, updates))
