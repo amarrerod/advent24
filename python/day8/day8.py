@@ -35,20 +35,11 @@ def read_map(filename: str = "test.txt"):
     return antennas, max_x, max_y
 
 
-def check_is_in_line(a, b):
-    x0, y0 = a
-    x1, y1 = b
-    try:
-        m = (y1 - y0) / (x1 - x0)
-    except ZeroDivisionError:
-        m = 0
-
-    def f(c):
-        cx, cy = c
-        f_c = y1 + m * (cx - x1)
-        return not abs(cy - f_c)
-
-    return f
+def is_in_line(a, b, c):
+    (ax, ay) = a
+    (bx, by) = b
+    (cx, cy) = c
+    return not (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by))
 
 
 def euclidean(a, b) -> float:
@@ -65,16 +56,15 @@ def plant_antinodes(
     for _, locations in tqdm(antennas.items()):
         for l0, l1 in itertools.combinations(locations, r=2):
             # Now sample all points
-            is_in_line = check_is_in_line(l0, l1)
             for x, y in itertools.product(range(max_x), range(max_y)):
                 p = [x, y]
-                if part_two and is_in_line(p):
+                if part_two and is_in_line(l0, l1, p):
                     antinodes.add(tuple(p))
                 elif not part_two:
                     d0 = euclidean(l0, p)
                     d1 = euclidean(l1, p)
 
-                    if min(d0, d1) * 2 == max([d0, d1]) and is_in_line(p):
+                    if min(d0, d1) * 2 == max([d0, d1]) and is_in_line(l0, l1, p):
                         # One is twice as far
                         antinodes.add(tuple(p))
 
