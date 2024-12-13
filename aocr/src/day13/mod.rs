@@ -34,8 +34,10 @@ fn is_possible_to_win(configuration: &[i128; 6]) -> [i128; 2] {
     let [ax, ay, bx, by, x, y] = configuration;
     let det: i128 = ax * by - bx * ay;
     let mut solution = [0, 0];
-    for (i, increase) in enumerate([0, 10000000000000 as i128]) {
-        let (x, y) = (x + increase, y + increase);
+    for (i, (x, y)) in enumerate([
+        (*x, *y),
+        (x + 10000000000000 as i128, y + 10000000000000 as i128),
+    ]) {
         let (na, ra) = divmod(by * x - bx * y, det);
         let (nb, rb) = divmod(ax * y - ay * x, det);
         if (na >= ra && ra == 0) && (rb == 0 && rb <= nb) {
