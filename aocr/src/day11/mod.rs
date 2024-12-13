@@ -5,7 +5,7 @@ use std::path::Path;
 
 fn read_file(filename: &str) -> io::Result<HashMap<u128, u128>> {
     let data_file = Path::new(file!()).parent().unwrap().join(filename);
-    let mut file = File::open(data_file)?;
+    let file = File::open(data_file)?;
     let mut line = String::new();
     let _ = io::BufReader::new(file).read_line(&mut line);
     let mut numbers: HashMap<u128, u128> = HashMap::new();

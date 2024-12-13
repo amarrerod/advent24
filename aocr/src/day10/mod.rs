@@ -5,7 +5,7 @@ use std::path::Path;
 
 fn read_file(filename: &str) -> io::Result<Vec<Vec<u32>>> {
     let data_file = Path::new(file!()).parent().unwrap().join(filename);
-    let mut file = File::open(data_file)?;
+    let file = File::open(data_file)?;
     let map = io::BufReader::new(file)
         .lines()
         .map(|l| {
@@ -60,7 +60,7 @@ fn get_trailheads(map: &Vec<Vec<u32>>) -> HashSet<(u32, u32)> {
 
 fn calculate_hikings(head: &(u32, u32), map: &Vec<Vec<u32>>) -> Vec<(u32, u32)> {
     let rows = map.len() as u32;
-    let cols = rows;
+    let _cols = rows;
     let mut reachable: Vec<(u32, u32)> = Vec::new();
     let mut stack: VecDeque<(u32, u32)> = VecDeque::new();
     stack.push_back(*head);

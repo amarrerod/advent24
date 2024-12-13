@@ -7,7 +7,7 @@ use std::collections::HashMap;
 fn read_file(filename: &str) -> io::Result<(HashMap<u32, Vec<u32>>, Vec<Vec<u32>>)> {
     let data_file = Path::new(file!()).parent().unwrap().join(filename);
 
-    let mut file = File::open(data_file)?;
+    let file = File::open(data_file)?;
     let reader = io::BufReader::new(file);
 
     let mut rules: HashMap<u32, Vec<u32>> = HashMap::new();
@@ -75,7 +75,7 @@ fn compute_middle_page(rules: &HashMap<u32, Vec<u32>>, updates: &Vec<Vec<u32>>, 
 pub fn solve_parts() {
     println!("{:} Day 5 {:}", "=".repeat(20), "=".repeat(20));
 
-    let (rules, mut updates) = read_file("input.txt").unwrap();
+    let (rules, updates) = read_file("input.txt").unwrap();
     let middle_page = compute_middle_page(&rules, &updates, true);
     println!("Middle page: {:?}", middle_page);
     let middle_page_fixed = compute_middle_page(&rules, &updates, false);
