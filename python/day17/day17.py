@@ -3,15 +3,16 @@
 """
 @File    :   day17.py
 @Time    :   2024/12/17 15:23:13
-@Author  :   Alejandro Marrero 
+@Author  :   Alejandro Marrero
 @Version :   1.0
 @Contact :   amarrerd@ull.edu.es
 @License :   (C)Copyright 2023, Alejandro Marrero
 @Desc    :   None
 """
 
-from pathlib import Path
 import re
+from pathlib import Path
+
 from instructions import instructions
 
 
@@ -33,8 +34,7 @@ def run(program: list[int], registers: list[int]):
     ptr = 0
     while ptr < len(program):
         ins, op = program[ptr : ptr + 2]
-        operand = get_operand(op, registers)
-        out = instructions[ins](operand, registers)
+        out = instructions[ins](op, registers)
         if out is not None:
             ptr = op - 2
 
