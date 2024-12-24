@@ -12,6 +12,7 @@
 
 
 from pathlib import Path
+from collections import deque
 
 
 def read_secrets(filename: str = "test.txt") -> list[int]:
@@ -41,7 +42,7 @@ def calculate_bananas(secrets: list[int]) -> int:
     for number in secrets:
         secret = number
         visited = set()
-        changes = []
+        changes = deque()
         for _ in range(2000):
             next_secret = random(secret)
             changes.append((next_secret % 10) - (secret % 10))
@@ -52,7 +53,8 @@ def calculate_bananas(secrets: list[int]) -> int:
                     ranges.setdefault(k, []).append(next_secret % 10)
                     visited.add(k)
 
-                changes.pop(0)
+                changes.popleft()
+
     bananas = max(sum(v) for v in ranges.values())
     return bananas
 
