@@ -12,12 +12,13 @@
 
 
 from pathlib import Path
-from itertools import combinations, product, chain
+from itertools import combinations
 
 
 def read_map(filename: str = "test.txt"):
     raw = Path(__file__).with_name(filename).read_text().splitlines()
     connections = {}
+
     for line in raw:
         fr, to = line.split("-")
         connections.setdefault(fr, set()).add(to)
@@ -49,21 +50,32 @@ def connected_computers(
     return len(valid_cycles)
 
 
-def largest_connection(connections: dict[str, set[str]]) -> int:
-    computers = set(connections.keys())
-    max_cycle = 1
-    cycle = list()
-    for l in range(2, len(computers)):
-        for c in combinations(computers, r=l):
-            if is_clique(c, connections) and l > max_cycle:
-                max_cycle = l
-                cycle = list(c)
-    cycle.sort()
-    print(cycle)
+def bron_kerbosch(
+    connections, cclique: set, potential: set, processed: set, cliques: list
+) -> str:
+    if not potential and not processed:
+        cliques.append(cclique)
+        return
+
+    for vertex in list(potential):
+        new_cclique = {vertex} | cclique
+        new_potential = potential & connections[vertex]
+        new_processed = processed & connections[vertex]
+        bron_kerbosch(connections, new_cclique, new_potential, new_processed, cliques)
+        potential.remove(vertex)
+        processed.add(vertex)
+
+
+def find_max_clique(connections):
+    cliques = []
+    bron_kerbosch(connections, set(), set(connections.keys()), set(), cliques)
+    cliques = sorted(cliques, key=len, reverse=True)
+    print(cliques)
+    return ",".join(c for c in sorted(cliques[0]))
 
 
 if __name__ == "__main__":
     connections = read_map("input.txt")
     print(connections)
-    print(connected_computers(connections))
-    largest_connection(connections)
+    t = find_max_clique(connections)
+    print(t)
